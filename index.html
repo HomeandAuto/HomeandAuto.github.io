@@ -1,1 +1,101 @@
-Hello World
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title on the tab in the web browser -->
+    <title>HOME AND AUTO</title>
+
+    <style>
+        /* defines the border and background color for the canvas we create */
+        canvas {
+            border: 1px solid #F3F9FC;
+            background-color: #2D95E5;
+        }
+    </style>
+</head>
+
+<!-- this will call the startGame() function when the body loads -->
+<body onload="startGame()">
+    <script>
+        var flo;
+        //Here we will initialize the start start of the game
+        function startGame() {
+
+          flo = new component(400, 500, "flo.png", 500, 250, "image");
+          myGameArea.start();
+
+        }
+
+        function component (width, height, color, x, y, type){
+          this.width = width;
+          this.height = height;
+          this.color = color;
+          this.x = x;
+          this.y = y;
+          this.type = type;
+          if(this.type == "image"){
+            this.img = document.createElement('img');
+            this.img.src = color;
+            this.img.alt = "could not display";
+          }
+          this.update = function(){
+            ctx = myGameArea.context;
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+          }
+        }
+        //Defines the game area
+        var myGameArea = {
+
+                //Creates the canvas element
+
+                canvas: document.createElement("canvas"),
+                start: function () {
+                    this.canvas.width = 1650;
+                    this.canvas.height = 880;
+                    this.context = this.canvas.getContext("2d");
+                    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                    this.frameNo = 0;
+
+                    //This will call updateGameArea every 20 ms
+                    this.interval = setInterval(updateGameArea, 20);
+                },
+                clear: function () {
+                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }
+          }
+
+
+        //Dont worry about this so much
+        //In this function you need to define what is going to change every frame
+        function updateGameArea() {
+          myGameArea.clear();
+          flo.update();
+          }
+
+        function checkKey(e){
+          if (e.keyCode == '37'){
+            flo.x -= 100;
+            }
+          else if (e.keyCode == '38'){
+            flo.y -= 100;
+            }
+          else if (e.keyCode == '39'){
+            flo.x += 100;
+            }
+          else if (e.keyCode == '40'){
+            flo.y += 100;
+            }
+          }
+        document.onkeydown = checkKey;
+    </script>
+
+
+
+
+
+</body>
+
+</html>
